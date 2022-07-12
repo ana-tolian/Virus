@@ -2,6 +2,7 @@ package ru.ana_esi.gui;
 
 import ru.ana_esi.GComponent.GButton;
 import ru.ana_esi.GComponent.GPanel;
+import ru.ana_esi.constant.Constant;
 import ru.ana_esi.listener.ButtonActionListener;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class MainMenu extends GPanel {
 
 
         buttonPanel = new GPanel();
-        buttonPanel.setPreferredSize(new Dimension(250, 600));
+        buttonPanel.setPreferredSize(new Dimension(Constant.BUTTON_PANEL_WIDTH, Constant.BUTTON_PANEL_HEIGHT));
         buttonPanel.setLayout(new FlowLayout(0,0,20));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(250, 10, 10, 10));
         buttonPanel.add(playButton);

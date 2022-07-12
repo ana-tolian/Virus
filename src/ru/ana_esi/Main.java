@@ -1,6 +1,7 @@
 package ru.ana_esi;
 
 import ru.ana_esi.GComponent.GPanel;
+import ru.ana_esi.constant.Constant;
 import ru.ana_esi.gui.GameSettingMenu;
 import ru.ana_esi.gui.MainMenu;
 import ru.ana_esi.gui.PaintPanel;
@@ -9,7 +10,6 @@ import javax.swing.*;
 
 public class Main {
 
-    public static Field gameField = null;
     public static boolean isGameStarted = false;
 
     public static GameSettingMenu gm = new GameSettingMenu();
@@ -25,7 +25,8 @@ public class Main {
         frame.setContentPane(root);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 800);
+        frame.setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
+        frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
     }
@@ -42,6 +43,14 @@ public class Main {
             frame.revalidate();
             frame.repaint();
         }
+    }
+
+    public static void changeBackToMainMenu () {
+        frame.setContentPane(root);
+        root.removeAll();
+        root.add(mm);
+        frame.revalidate();
+        frame.repaint();
     }
 
     public static void main (String args []) {

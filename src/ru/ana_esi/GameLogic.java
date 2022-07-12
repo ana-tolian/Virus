@@ -108,15 +108,15 @@ public class GameLogic {
         for (Point p : possibleNodes) {
             player.setPossibleTurn(p.x, p.y);
         }
-        //possibleNodes.clear(); //TODO
+        possibleNodes.clear();
     }
 
     public int move (int x, int y) {
-        Player p = playerStack.peek();//getPlayerOfCurrentTurn();
+        Player p = playerStack.peek();
         int state;
 
         if (p.getTurn() != 0)
-            refreshPlayerState(x, y, p);        //TODO
+            refreshPlayerState(x, y, p);
 
         if (isGameOver(p)) {
             endGame(p);
@@ -135,7 +135,7 @@ public class GameLogic {
             if (setMove(x, y, player) == 2)
                 return 2;
 
-            printArray(map);            ///TODO
+//            printArray(map);          // debug
 
             if (player.makeAction() == 1)
                 return  1;
@@ -197,17 +197,4 @@ public class GameLogic {
         System.out.println();
     }
 
-
-//    public static void main (String args []) {
-//        GameLogic gc = new GameLogic(2);
-//
-//        Scanner in = new Scanner(System.in);
-//        int x = 0, y = 0;
-//
-//        while (x * y != -1) {
-//            y = in.nextInt();
-//            x = in.nextInt();
-//            gc.move(x, y);
-//        }
-//    }
 }

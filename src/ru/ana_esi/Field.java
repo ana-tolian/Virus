@@ -1,5 +1,6 @@
 package ru.ana_esi;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import ru.ana_esi.constant.Colors;
 import ru.ana_esi.constant.Constant;
 import ru.ana_esi.constant.Figure;
@@ -18,6 +19,8 @@ public class Field {
 
     private BufferedImage bi;
     private Graphics g;
+
+    boolean gameOver = false;
 
     private final int LENGTH;
 
@@ -76,10 +79,10 @@ public class Field {
     private void paintGameField () {
         Graphics2D g = (Graphics2D) this.g;
         g.setStroke(new BasicStroke(1));
-        g.setColor(Color.WHITE);
+        g.setColor(Constant.GAME_FIELD_BACKGROUND_COLOR);
         g.fillRect(0,0, MODIF_WIDTH, MODIF_HEIGHT);
 
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(Constant.LINE_COLOR);
         for (int i = 0; i < MODIF_WIDTH + 1; i += TILE_DIM) {
             g.drawLine(i, 0, i, MODIF_HEIGHT);
         }
@@ -135,6 +138,7 @@ public class Field {
             // TODO
 
         } else if (game_state == -1) {          // Game is over (no permitted turns for current player AND actionsLeft > 0)
+            gameOver = true;
             // TODO
         }
     }
@@ -148,11 +152,11 @@ public class Field {
     private void generatePlayers () {
 //        for (int i = 0; i < Changable.amountOfPlayers; i++) {
         int fig = Figure.figures[Generator.random(0, Figure.figures.length)];
-        Player p1 = new Player("Player_" + (0+1), Colors.colors[0], 3, fig, getStartPos(0), LENGTH, (0+1)*3);
+        Player p1 = new Player("Player " + (0+1), Colors.colors[0], Changable.maxActionsPerTurn, fig, getStartPos(0), LENGTH, (0+1)*3);
         players.enqueue(p1);
 
         fig = Figure.figures[Generator.random(0, Figure.figures.length)];
-        Player p2 = new Player("Player_" + (1+1), Colors.colors[3], 3, fig, getStartPos(3), LENGTH, (1+1)*3);
+        Player p2 = new Player("Player " + (1+1), Colors.colors[2], Changable.maxActionsPerTurn, fig, getStartPos(3), LENGTH, (1+1)*3);
         players.enqueue(p2);
 
         engine = new GameLogic(players, p1, p2, map);
@@ -162,6 +166,17 @@ public class Field {
         Cell cell = possibleStartPos[i];
         System.out.println(cell);
         return cell;
+    }
+
+    public int getNumberOfTurn () {
+        int turn = 0;
+        for (Player player : players)
+            turn += player.getTurn();
+        return turn / (Changable.maxActionsPerTurn * Changable.amountOfPlayers);
+    }
+
+    public boolean isGameOver () {
+        return gameOver;
     }
 
     public Player getCurrentPlayer () {
