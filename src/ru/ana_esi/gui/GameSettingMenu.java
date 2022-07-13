@@ -14,45 +14,51 @@ import java.awt.*;
 
 public class GameSettingMenu extends GPanel {
 
-    private GPanel numberOfPlayers;
-    private GSlider players;
-    private GLabel playersLabel;
+    private GPanel numberOfActions;
+    private GSlider actions;
+    private GLabel actionsLabel;
+    private GLabel actionsInfo;
 
     private GPanel mapSize;
     private GSlider sizeOfMap;
     private GLabel mapLabel;
+    private GLabel mapInfo;
 
     private GPanel playButtonPanel;
     private GButton playButton;
     private GButton backButton;
 
 
-
     public GameSettingMenu () {
         setLayout(new GridLayout(3, 1, 40, 40));
 
-        numberOfPlayers = new GPanel(new FlowLayout());
-        numberOfPlayers.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
+        numberOfActions = new GPanel(new FlowLayout());
+        numberOfActions.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
 
-        playersLabel = new GLabel("Выберите количество игроков:    ");
-        players = new GSlider(2, 4, 2);
-        players.setMajorTickSpacing(1);
-        players.setPaintTicks(true);
-        players.addChangeListener(new ChangeListener() {
+        actionsLabel = new GLabel("Количество действий в ход:    ");
+        actions = new GSlider(3, 6, 3);
+        actions.setMajorTickSpacing(1);
+        actions.setPaintTicks(true);
+        actions.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Changable.amountOfPlayers = ((JSlider) e.getSource()).getValue();
+                Changable.maxActionsPerTurn = ((JSlider) e.getSource()).getValue();
+                actionsInfo.setText("   " +actions.getValue());
             }
         });
-        numberOfPlayers.add(playersLabel);
-        numberOfPlayers.add(players);
+
+        actionsInfo = new GLabel ("   " + actions.getValue());
+
+        numberOfActions.add(actionsLabel);
+        numberOfActions.add(actions);
+        numberOfActions.add(actionsInfo);
 
         /*          */
         /*          */
 
         mapSize = new GPanel(new FlowLayout());
 
-        mapLabel = new GLabel("Выберите размер карты:              ");
+        mapLabel = new GLabel("Размер карты:                     ");
         sizeOfMap = new GSlider(6, 30, 6);
         sizeOfMap.setMajorTickSpacing(6);
         sizeOfMap.setMinorTickSpacing(2);
@@ -61,10 +67,15 @@ public class GameSettingMenu extends GPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 Changable.mapSize = ((JSlider) e.getSource()).getValue();
+                mapInfo.setText("   " + sizeOfMap.getValue() + "x" + sizeOfMap.getValue());
             }
         });
+
+        mapInfo = new GLabel ("   " + sizeOfMap.getValue() + " x " + sizeOfMap.getValue());
+
         mapSize.add(mapLabel);
         mapSize.add(sizeOfMap);
+        mapSize.add(mapInfo);
 
 
         playButtonPanel = new GPanel(new FlowLayout(FlowLayout.RIGHT, 250, 10));
@@ -81,7 +92,7 @@ public class GameSettingMenu extends GPanel {
         playButtonPanel.add(playButton);
 
 
-        add(numberOfPlayers);
+        add(numberOfActions);
         add(mapSize);
         add(playButtonPanel);
 
