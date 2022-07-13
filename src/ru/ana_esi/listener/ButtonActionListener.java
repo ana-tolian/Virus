@@ -39,5 +39,11 @@ public class ButtonActionListener implements ActionListener {
         else if (e.getActionCommand().equals("go"))
             createGameField();
 
+        else if (e.getActionCommand().equals("resume"))
+            Main.changePane(Main.pp);
+
+        else if (e.getActionCommand().equals("menu"))
+            Main.changePane(Main.mm);
+
     }
 }

@@ -5,6 +5,7 @@ import ru.ana_esi.constant.Constant;
 import ru.ana_esi.gui.GameSettingMenu;
 import ru.ana_esi.gui.MainMenu;
 import ru.ana_esi.gui.PaintPanel;
+import ru.ana_esi.gui.PauseMenu;
 
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ public class Main {
 
     public static GameSettingMenu gm = new GameSettingMenu();
     public static MainMenu mm = new MainMenu();
+    public static PauseMenu ppane = new PauseMenu();
     public static GPanel root = new GPanel();
     public static PaintPanel pp;
 
@@ -45,13 +47,15 @@ public class Main {
         }
     }
 
-    public static void changeBackToMainMenu () {
+    public static void changePaneFromPaintPanel (JPanel pane) {
         frame.setContentPane(root);
         root.removeAll();
-        root.add(mm);
+        root.add(pane);
         frame.revalidate();
         frame.repaint();
     }
+
+
 
     public static void main (String args []) {
         SwingUtilities.invokeLater(new Runnable() {

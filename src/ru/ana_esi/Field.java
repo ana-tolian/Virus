@@ -90,6 +90,8 @@ public class Field {
         for (int i = 0; i < MODIF_HEIGHT + 1; i += TILE_DIM) {
             g.drawLine(0, i, MODIF_WIDTH, i);
         }
+
+        paintRectAroundField(Color.GRAY);
     }
 
     public void paint (int x, int y) {
@@ -100,6 +102,27 @@ public class Field {
                     return;
                 }
             }
+    }
+
+    public void paintRectAroundField (Color color) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(0, 0, bi.getWidth() - 1, bi.getHeight() - 1);
+    }
+
+    public void paintRectAroundField (Color color, int x, int y) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(x, y, bi.getWidth() - x - 1, bi.getHeight() - y - 1);
+    }
+
+    public void paintRectAroundField (Color color, int x, int y, int w, int h) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(x, y, w, h);
     }
 
 /////////////////////////////////////////////////////
@@ -139,7 +162,7 @@ public class Field {
 
         } else if (game_state == -1) {          // Game is over (no permitted turns for current player AND actionsLeft > 0)
             gameOver = true;
-            // TODO
+            paintRectAroundField(Color.RED, 1, 1);
         }
     }
 
@@ -169,10 +192,10 @@ public class Field {
     }
 
     public int getNumberOfTurn () {
-        int turn = 0;
+        int turn = 1;
         for (Player player : players)
             turn += player.getTurn();
-        return turn / (Changable.maxActionsPerTurn * Changable.amountOfPlayers);
+        return (turn + Changable.maxActionsPerTurn * Changable.amountOfPlayers - 1) / (Changable.maxActionsPerTurn * Changable.amountOfPlayers);
     }
 
     public boolean isGameOver () {

@@ -10,11 +10,10 @@ import ru.ana_esi.constant.Constant;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class PaintPanel extends JPanel implements MouseListener, Runnable {
+public class PaintPanel extends JPanel implements MouseListener, KeyListener, Runnable {
 
     private Field tiles;
     private BufferedImage bi;
@@ -23,11 +22,14 @@ public class PaintPanel extends JPanel implements MouseListener, Runnable {
     private boolean gameOver = false;
 
     public PaintPanel() {
+        setFocusable(true);
         setPreferredSize(new Dimension(WIDTH + 1, HEIGHT + 1));
         addMouseListener(this);
+        addKeyListener(this);
         setBackground(Constant.BACKGROUND_MENU_COLOR);
 
         informationLabel = new GLabel ("");
+        informationLabel.setFocusable(false);
         this.add(informationLabel);
 
         this.tiles = Changable.field;
@@ -39,13 +41,11 @@ public class PaintPanel extends JPanel implements MouseListener, Runnable {
     protected void paintComponent (Graphics g) {
         super.paintComponent(g);
         g.drawImage(bi, Constant.FIELD_SHEAR_X, Constant.FIELD_SHEAR_Y, this);
+    }
 
+    private void refreshLabel () {
         if (tiles.isGameOver()) {
             informationLabel.setText("Game is over: " + tiles.getCurrentPlayer().getName() + " defeated. Click on the screen to continue.");
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(Color.RED);
-            g2.setStroke(new BasicStroke(2));
-            g2.drawRect(Constant.FIELD_SHEAR_X, Constant.FIELD_SHEAR_Y, bi.getWidth() - 1, bi.getHeight() - 1);
             gameOver = true;
 
         } else
@@ -63,7 +63,7 @@ public class PaintPanel extends JPanel implements MouseListener, Runnable {
         while (true) {
             try {
                 Thread.sleep(60);
-
+                refreshLabel();
                 repaint();
             } catch (Exception e) {}
 
@@ -82,25 +82,32 @@ public class PaintPanel extends JPanel implements MouseListener, Runnable {
 
         tiles.paint(x, y);
 
+        requestFocusInWindow();
+
         if (gameOver)
-            Main.changeBackToMainMenu();
+            Main.changePaneFromPaintPanel(Main.mm);
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) { }
 
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Main.changePaneFromPaintPanel(Main.ppane);
+        }
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-
+    public void keyReleased(KeyEvent e) { }
 }
