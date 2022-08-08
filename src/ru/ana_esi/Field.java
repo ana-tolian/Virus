@@ -1,6 +1,5 @@
 package ru.ana_esi;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import ru.ana_esi.constant.Colors;
 import ru.ana_esi.constant.Constant;
 import ru.ana_esi.constant.Figure;
@@ -31,7 +30,7 @@ public class Field {
 
     public Field () {
         this.players = new LinkedQueue<Player>();
-        this.LENGTH = Changable.mapSize;
+        this.LENGTH = Changeable.mapSize;
 
         TILE_DIM = Constant.WIDTH / LENGTH;
         MODIF_WIDTH = Constant.WIDTH - (Constant.WIDTH - LENGTH * TILE_DIM) + 1;
@@ -175,11 +174,11 @@ public class Field {
     private void generatePlayers () {
 //        for (int i = 0; i < Changable.amountOfPlayers; i++) {
         int fig = Figure.figures[Generator.random(0, Figure.figures.length)];
-        Player p1 = new Player("Player " + (0+1), Colors.colors[0], Changable.maxActionsPerTurn, fig, getStartPos(0), LENGTH, (0+1)*3);
+        Player p1 = new Player("Player " + (0+1), Colors.colors[0], Changeable.maxActionsPerTurn, fig, getStartPos(0), LENGTH, (0+1)*3);
         players.enqueue(p1);
 
         fig = Figure.figures[Generator.random(0, Figure.figures.length)];
-        Player p2 = new Player("Player " + (1+1), Colors.colors[2], Changable.maxActionsPerTurn, fig, getStartPos(3), LENGTH, (1+1)*3);
+        Player p2 = new Player("Player " + (1+1), Colors.colors[2], Changeable.maxActionsPerTurn, fig, getStartPos(3), LENGTH, (1+1)*3);
         players.enqueue(p2);
 
         engine = new GameLogic(players, p1, p2, map);
@@ -195,7 +194,7 @@ public class Field {
         int turn = 1;
         for (Player player : players)
             turn += player.getTurn();
-        return (turn + Changable.maxActionsPerTurn * Changable.amountOfPlayers - 1) / (Changable.maxActionsPerTurn * Changable.amountOfPlayers);
+        return (turn + Changeable.maxActionsPerTurn * Changeable.amountOfPlayers - 1) / (Changeable.maxActionsPerTurn * Changeable.amountOfPlayers);
     }
 
     public boolean isGameOver () {

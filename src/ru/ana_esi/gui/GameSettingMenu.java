@@ -1,6 +1,6 @@
 package ru.ana_esi.gui;
 
-import ru.ana_esi.Changable;
+import ru.ana_esi.Changeable;
 import ru.ana_esi.GComponent.GButton;
 import ru.ana_esi.GComponent.GLabel;
 import ru.ana_esi.GComponent.GPanel;
@@ -42,7 +42,7 @@ public class GameSettingMenu extends GPanel {
         actions.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Changable.maxActionsPerTurn = ((JSlider) e.getSource()).getValue();
+                Changeable.maxActionsPerTurn = ((JSlider) e.getSource()).getValue();
                 actionsInfo.setText("   " +actions.getValue());
             }
         });
@@ -66,7 +66,7 @@ public class GameSettingMenu extends GPanel {
         sizeOfMap.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Changable.mapSize = ((JSlider) e.getSource()).getValue();
+                Changeable.mapSize = ((JSlider) e.getSource()).getValue();
                 mapInfo.setText("   " + sizeOfMap.getValue() + "x" + sizeOfMap.getValue());
             }
         });

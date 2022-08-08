@@ -1,10 +1,8 @@
 package ru.ana_esi.gui;
 
-import com.sun.org.apache.xalan.internal.res.XSLTErrorResources;
-import ru.ana_esi.Changable;
+import ru.ana_esi.Changeable;
 import ru.ana_esi.Field;
 import ru.ana_esi.GComponent.GLabel;
-import ru.ana_esi.GComponent.GPanel;
 import ru.ana_esi.Main;
 import ru.ana_esi.constant.Constant;
 
@@ -32,7 +30,7 @@ public class PaintPanel extends JPanel implements MouseListener, KeyListener, Ru
         informationLabel.setFocusable(false);
         this.add(informationLabel);
 
-        this.tiles = Changable.field;
+        this.tiles = Changeable.field;
         this.bi = tiles.getImage();
 
         start();
